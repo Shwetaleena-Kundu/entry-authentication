@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sign In | Entry</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.html" class="logo">
+      Entry<span aria-hidden="true">*</span>
+    </a>
+
+    <p>
+      New here?
+      <a href="register.html">Create account</a>
+    </p>
+  </header>
+
+  <main class="auth-layout">
+    <section class="brand-panel" aria-labelledby="brand-title">
+      <div class="brand-content">
+        <p class="eyebrow">Your personal space</p>
+        <h1 id="brand-title">A familiar place.<br>A fresh start.</h1>
+      </div>
+
+      <div class="brand-art" aria-hidden="true">
+        <div class="circle circle-peach"></div>
+        <div class="circle circle-coral"></div>
+      </div>
+    </section>
+
+    <section class="form-panel" aria-labelledby="login-title">
+      <div class="form-container">
+        <p class="form-eyebrow">01 / Sign in</p>
+
+        <h2 id="login-title">Good to see you again.</h2>
+        <p class="form-description">
+          Sign in to your account and pick up where you left off.
+        </p>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+
+            <div class="password-field">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Your password"
+                autocomplete="current-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                aria-label="Show password"
+                aria-controls="password"
+                aria-pressed="false"
+              >
+                Show
+              </button>
+            </div>
+          </div>
+
+          <p id="form-message" class="form-message" role="status"></p>
+
+          <button type="submit" class="submit-button">
+            Sign in
+          </button>
+        </form>
+
+        <p class="form-footer">
+          New here?
+          <a href="register.html">Create account</a>
+        </p>
+      </div>
+    </section>
+  </main>
+<script src="js/common.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>

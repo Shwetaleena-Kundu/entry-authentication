@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Your Dashboard | Entry</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <header class="header dashboard-header">
+    <a href="dashboard.html" class="logo">
+      Entry<span aria-hidden="true">*</span>
+    </a>
+
+    <div class="account-actions">
+      <span class="avatar" id="user-avatar" aria-hidden="true">—</span>
+      <button type="button" id="logout-button">Log out</button>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="dashboard-intro">
+      <p class="form-eyebrow">03 / Your dashboard</p>
+      <h1 id="welcome-title">Your personal space.</h1>
+      <p>Your account, all in one place.</p>
+    </section>
+
+    <div class="dashboard-grid">
+      <section class="profile-card" aria-labelledby="profile-title">
+        <h2 id="profile-title">Your profile</h2>
+
+        <dl class="profile-details">
+          <div class="profile-row">
+            <dt>Username</dt>
+            <dd id="profile-username">Loading…</dd>
+          </div>
+
+          <div class="profile-row">
+            <dt>Email address</dt>
+            <dd id="profile-email">Loading…</dd>
+          </div>
+
+          <div class="profile-row">
+            <dt>Account status</dt>
+            <dd>
+              <span id="profile-status">Checking session…</span>
+            </dd>
+          </div>
+        </dl>
+
+        <p id="dashboard-message" role="status"></p>
+      </section>
+
+      <section class="welcome-card" aria-labelledby="welcome-card-title">
+        <div class="welcome-card-content">
+          <p class="eyebrow">Your personal space</p>
+          <h2 id="welcome-card-title">
+            You’re right where you belong.
+          </h2>
+        </div>
+
+        <div class="brand-art" aria-hidden="true">
+          <div class="circle circle-peach"></div>
+          <div class="circle circle-coral"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/common.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
