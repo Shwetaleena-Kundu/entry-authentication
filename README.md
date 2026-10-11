@@ -1,37 +1,84 @@
 # Entry — Authentication System
 
-Entry lets users register, sign in, view their profile on a protected dashboard, and log out.
+Entry is a user authentication project built for the Week 2 Full Stack Development assignment. Users can create an account, sign in, view their profile on a protected dashboard, and log out.
 
-## Stack
+## Demo video
 
-HTML, CSS, vanilla JavaScript, Node.js, Express, and MySQL. Authentication uses bcrypt, JSON Web Tokens, HttpOnly cookies, and database sessions.
+[View or download the authentication demo](demo/entry-auth-demo.mp4)
+
+The recording demonstrates registration, login, protected dashboard access, and logout using the local application.
+
+## Screenshots
+
+### Sign in
+![Entry sign-in page](screenshots/entry-login.jpeg)
+
+### Create account
+![Entry registration page](screenshots/entry-register.jpeg)
+
+### Protected dashboard
+![Entry dashboard](screenshots/entry-dashboard.jpeg)
+
+### Invalid credentials
+![Incorrect password message](screenshots/entry-login-error.jpeg)
+
+## Tech stack
+
+- Frontend: HTML, CSS, vanilla JavaScript
+- Backend: Node.js and Express
+- Database: MySQL
+- Authentication: bcrypt, JSON Web Tokens, HttpOnly cookies, and database sessions
+- Request limiting: express-rate-limit
 
 ## Features
 
-- Username, email, and password validation
+- Registration with username, email, and password validation
+- Unique usernames and email addresses
 - Password hashing with bcrypt
-- Unique usernames and emails
 - Password visibility controls
 - JWT authentication with a one-hour expiry
-- Protected dashboard and profile API
-- Logout deletes the session and clears the cookie
+- Protected dashboard and profile endpoint
+- Profile details loaded from MySQL
+- Logout deletes the session and clears the authentication cookie
 - Registration and login rate limits
+- Responsive layouts for desktop, tablet, and phone screens
 
-Email verification and OTP authentication are not implemented.
+Email verification and OTP authentication are not included.
+
+## Project structure
+
+| Path | Contents |
+| --- | --- |
+| `backend/controllers/` | Registration and login logic |
+| `backend/middleware/` | JWT and session verification |
+| `backend/routes/` | Authentication API routes |
+| `backend/db.js` | MySQL connection pool |
+| `backend/server.js` | Express server and frontend serving |
+| `backend/.env.example` | Configuration template |
+| `database/schema.sql` | Users and sessions table definitions |
+| `frontend/` | Login, registration, dashboard, CSS, and JavaScript |
+| `screenshots/` | Application screenshots |
+| `demo/` | Authentication demo video |
 
 ## Local setup
 
-1. Install Node.js and MySQL and start the MySQL server.
-2. Clone this repository.
-3. Run `database/schema.sql` in MySQL to create the database and tables.
-4. Copy `backend/.env.example` to `backend/.env` and enter your MySQL connection details.
-5. Generate a secret with the command below and set `JWT_SECRET` in `.env`.
+1. Install Node.js and MySQL, then start the MySQL server.
+2. Clone the repository:
+
+```sh
+git clone https://github.com/Shwetaleena-Kundu/entry-authentication.git
+cd entry-authentication
+```
+
+3. Run `database/schema.sql` in MySQL to create the `entry` database and its tables.
+4. Copy `backend/.env.example` to `backend/.env`. Enter your MySQL host, port, username, password, and database name. Keep `PORT=5001` and `NODE_ENV=development` for local use.
+5. Generate a random secret and put its output in `JWT_SECRET`:
 
 ```sh
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-6. Install dependencies and start the server:
+6. Install dependencies and start the backend:
 
 ```sh
 cd backend
@@ -39,24 +86,51 @@ npm ci
 npm start
 ```
 
-7. Open http://localhost:5001/index.html. Express serves both the frontend and API; use this address for authentication testing.
+7. Open [http://localhost:5001/index.html](http://localhost:5001/index.html).
 
-Never commit `.env`, passwords, or JWT secrets.
+Express serves both the frontend and API. Use its address for authentication testing rather than opening the HTML files directly.
 
-## API
+## Authentication endpoints
 
-| Method | Path | Purpose |
+Registration and login accept JSON request bodies. Login sets a cookie; protected requests use that cookie.
+
+| Method | Endpoint | Request / behaviour |
 | --- | --- | --- |
-| GET | `/api/health` | Server health response |
-| POST | `/api/auth/register` | Create an account |
-| POST | `/api/auth/login` | Sign in and set the authentication cookie |
-| GET | `/api/auth/me` | Return the authenticated user's profile |
-| POST | `/api/auth/logout` | Invalidate the session and clear the cookie |
+| GET | `/api/health` | Returns the backend health message |
+| POST | `/api/auth/register` | Accepts `username`, `email`, and `password`; creates an account |
+| POST | `/api/auth/login` | Accepts `email` and `password`; creates a session and sets the JWT cookie |
+| GET | `/api/auth/me` | Requires authentication; returns the user's profile |
+| POST | `/api/auth/logout` | Requires authentication; deletes the session and clears the cookie |
 
-## Manual checks
+Registration returns `201` on success, `400` for invalid input, and `409` for a duplicate username or email. Login returns `401` for incorrect credentials. Protected API access returns `401` without a valid session. Unexpected server errors return `500`.
 
-Registration, successful login, profile loading, logout, access after logout, incorrect passwords, duplicate accounts, and mismatched registration passwords have been checked locally by the project author. Mobile layout and session expiry still need verification.
+The `/dashboard.html` route redirects unauthenticated visitors to the login page.
 
-## Deployment
+## Security notes
 
-Deployment is pending. The application needs a Node.js host and a reachable MySQL database. Keep the backend and frontend on the same origin. Configure database credentials and `JWT_SECRET` through the host's environment settings; use `NODE_ENV=production` with HTTPS for secure cookies. The server accepts the host's `PORT` setting.
+- Passwords are hashed with bcrypt using a cost factor of 12.
+- Passwords must contain at least eight characters and cannot exceed bcrypt's 72-byte limit.
+- Database queries use parameter placeholders.
+- JWT signatures and expiry are checked before protected access.
+- The session must also exist in MySQL and must not be expired.
+- Authentication cookies use `HttpOnly` and `SameSite=Strict`; `Secure` is enabled in production.
+- Logout invalidates the database session, so the previous token cannot authenticate again.
+- Registration allows 10 attempts per IP per 15 minutes; login allows 20.
+- Real credentials and secrets belong in `.env`, which is excluded from Git.
+
+## Manual testing
+
+The project author checked these flows locally:
+
+- Successful registration and login
+- Dashboard profile loading
+- Logout and dashboard access after logout
+- Incorrect password
+- Duplicate account
+- Mismatched registration passwords
+
+Responsive CSS has been added. Session-expiry behaviour and mobile layout still need final verification.
+
+## Deployment status
+
+The project currently runs locally; no live deployment URL is available yet. Deployment requires a Node.js host and a reachable MySQL database. Keep the frontend and backend on the same origin, supply credentials through hosting environment settings, and use HTTPS with `NODE_ENV=production`. The server reads the host-provided `PORT`.
