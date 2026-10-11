@@ -2,6 +2,12 @@
 
 Entry is a user authentication project built for the Week 2 Full Stack Development assignment. Users can create an account, sign in, view their profile on a protected dashboard, and log out.
 
+## Live website
+
+[Open Entry](https://entry-authentication-production.up.railway.app/)
+
+Hosted on Railway with a Railway MySQL database.
+
 ## Demo video
 
 [View or download the authentication demo](demo/entry-auth-demo.mp4)
@@ -131,6 +137,15 @@ The project author checked these flows locally:
 
 Responsive CSS has been added. Session-expiry behaviour and mobile layout still need final verification.
 
-## Deployment status
+## Deployment
 
-The project currently runs locally; no live deployment URL is available yet. Deployment requires a Node.js host and a reachable MySQL database. Keep the frontend and backend on the same origin, supply credentials through hosting environment settings, and use HTTPS with `NODE_ENV=production`. The server reads the host-provided `PORT`.
+The application is deployed on [Railway](https://entry-authentication-production.up.railway.app/) with MySQL. Express serves the frontend and API on the same origin.
+
+- The root `package.json` installs backend dependencies and starts `backend/server.js`.
+- Database credentials and `JWT_SECRET` are configured in Railway service variables.
+- Production uses `NODE_ENV=production` and the host-provided `PORT`.
+- The `users` and `sessions` tables are created in the Railway MySQL database.
+
+The project author verified registration, login, dashboard profile loading, logout, and redirection to login when accessing the dashboard after logout on the live website.
+
+Local accounts are separate from the deployed database; create an account on the live website to try it.
