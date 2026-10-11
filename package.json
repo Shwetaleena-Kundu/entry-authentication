@@ -1,0 +1,12 @@
+{
+  "name": "entry-authentication",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm ci --prefix backend",
+    "start": "node backend/server.js"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}
